@@ -14,6 +14,10 @@ product of the role, not a notebook dump.
 Adversarial Failure Modes of a Production Toxicity Classifier*, the working
 paper with the full findings, figures, and method.
 
+🚀 **Live demo (no install):** the robustness scanner on
+[Hugging Face Spaces](https://prakharanand85-harm-classifier-scanner.hf.space) —
+type a comment and watch evasions attack a classifier in real time.
+
 > **Data ethics.** This harness uses **public proxy data only** (ordinary
 > toxic-comment / hate-speech datasets). It does not touch — and must not be
 > pointed at — CSAM, NCII, or violent-extremism material, which can only be
@@ -23,7 +27,11 @@ paper with the full findings, figures, and method.
 ## Interactive scanner
 
 The fastest way to see what this does is the **robustness scanner** — an
-interactive console (Streamlit) for a Trust & Safety reviewer to poke at:
+interactive console (Streamlit) for a Trust & Safety reviewer to poke at.
+
+**▶ Try it live (no install):** <https://prakharanand85-harm-classifier-scanner.hf.space>
+
+Or run it locally:
 
 ```bash
 pip install -r requirements-app.txt
