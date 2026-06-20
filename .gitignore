@@ -11,7 +11,9 @@ secrets.*
 
 # Generated artifacts
 outputs/*.png
-outputs/*.results.json
+# Note: outputs/*.results.json caches ARE committed — the scanner app (scripts/
+# scanner_app.py) reads them to show the real Scan Report with no model download.
+# They hold metrics + public-dataset example text only (no working evasion strings).
 
 # Red-team survivors: paraphrases that bypass a real classifier. Withheld by
 # default as a dual-use precaution; remove this line only if you deliberately

@@ -1,0 +1,707 @@
+{
+  "meta": {
+    "model_name": "Detoxify (unbiased)",
+    "dataset_name": "hatecheck",
+    "author": "Prakhar Anand",
+    "identity_proxy": false
+  },
+  "results": {
+    "threshold": 0.5,
+    "n": 3728,
+    "baseline": {
+      "precision": 0.7542242703533026,
+      "recall": 0.7662895044869293,
+      "f1": 0.7602090187729824,
+      "fpr": 0.5493562231759657,
+      "tp": 1964,
+      "fp": 640,
+      "fn": 599,
+      "tn": 525,
+      "support": 2563,
+      "ece": 0.22633843467765047
+    },
+    "pr_curve": [
+      [
+        0.01,
+        0.7076663858466723,
+        0.9832227857978931
+      ],
+      [
+        0.03,
+        0.7169866201279814,
+        0.961763558330082
+      ],
+      [
+        0.05,
+        0.7225864123957092,
+        0.9461568474444011
+      ],
+      [
+        0.06999999999999999,
+        0.7241691842900302,
+        0.9352321498244245
+      ],
+      [
+        0.09,
+        0.7263222632226323,
+        0.9215762777994537
+      ],
+      [
+        0.11,
+        0.7287184284377923,
+        0.9118220834959032
+      ],
+      [
+        0.13,
+        0.7300126903553299,
+        0.8977760436987905
+      ],
+      [
+        0.15000000000000002,
+        0.7324575456584428,
+        0.8919235271166601
+      ],
+      [
+        0.17,
+        0.7333765812520272,
+        0.8821693328131096
+      ],
+      [
+        0.19,
+        0.7353230567399147,
+        0.8747561451424113
+      ],
+      [
+        0.21000000000000002,
+        0.7358803986710963,
+        0.8642216152945766
+      ],
+      [
+        0.23,
+        0.7377987209693706,
+        0.8552477565353102
+      ],
+      [
+        0.25,
+        0.7388945405222109,
+        0.8501755754974639
+      ],
+      [
+        0.27,
+        0.7410195005131714,
+        0.8451033944596177
+      ],
+      [
+        0.29000000000000004,
+        0.7430051813471502,
+        0.8392508778774873
+      ],
+      [
+        0.31,
+        0.7456445993031359,
+        0.8349590323839251
+      ],
+      [
+        0.33,
+        0.7472682410997532,
+        0.8271556769410847
+      ],
+      [
+        0.35000000000000003,
+        0.7488421802636267,
+        0.8201326570425282
+      ],
+      [
+        0.37,
+        0.7518959913326111,
+        0.8123293015996879
+      ],
+      [
+        0.39,
+        0.753014249177932,
+        0.8041357783847054
+      ],
+      [
+        0.41000000000000003,
+        0.7532275912947252,
+        0.796722590714007
+      ],
+      [
+        0.43,
+        0.7540983606557377,
+        0.7896995708154506
+      ],
+      [
+        0.45,
+        0.7551711169612636,
+        0.7834568864611783
+      ],
+      [
+        0.47000000000000003,
+        0.7550170390003786,
+        0.77799453765119
+      ],
+      [
+        0.49,
+        0.7551644988523336,
+        0.7701911822083496
+      ],
+      [
+        0.51,
+        0.7545489740611692,
+        0.7604369879047991
+      ],
+      [
+        0.53,
+        0.7557639703008988,
+        0.7545844713226687
+      ],
+      [
+        0.55,
+        0.7570241392956074,
+        0.7463909481076864
+      ],
+      [
+        0.5700000000000001,
+        0.7568108974358975,
+        0.7370269215762778
+      ],
+      [
+        0.59,
+        0.7581037277147488,
+        0.7300039016777214
+      ],
+      [
+        0.61,
+        0.7577614379084967,
+        0.7237612173234491
+      ],
+      [
+        0.63,
+        0.7572493786246893,
+        0.7132266874756145
+      ],
+      [
+        0.65,
+        0.7580712788259958,
+        0.7054233320327741
+      ],
+      [
+        0.67,
+        0.7576530612244898,
+        0.6952789699570815
+      ],
+      [
+        0.6900000000000001,
+        0.7581896551724138,
+        0.686305111197815
+      ],
+      [
+        0.7100000000000001,
+        0.757602468047598,
+        0.6706984003121342
+      ],
+      [
+        0.73,
+        0.7573033707865169,
+        0.6574326960593055
+      ],
+      [
+        0.75,
+        0.7577413479052824,
+        0.6492391728443231
+      ],
+      [
+        0.77,
+        0.7578996282527881,
+        0.6363636363636364
+      ],
+      [
+        0.79,
+        0.7578347578347578,
+        0.6227077643386656
+      ],
+      [
+        0.81,
+        0.7570456754130224,
+        0.6078813889972688
+      ],
+      [
+        0.8300000000000001,
+        0.7574083375188347,
+        0.5883730003901678
+      ],
+      [
+        0.85,
+        0.7588357588357588,
+        0.5696449473273507
+      ],
+      [
+        0.87,
+        0.7597826086956522,
+        0.5454545454545454
+      ],
+      [
+        0.89,
+        0.7592910234419669,
+        0.518142801404604
+      ],
+      [
+        0.91,
+        0.7592931139549055,
+        0.48614904408895826
+      ],
+      [
+        0.93,
+        0.7612732095490716,
+        0.4479126024190402
+      ],
+      [
+        0.9500000000000001,
+        0.7661843107387661,
+        0.39250877877487317
+      ],
+      [
+        0.97,
+        0.7783155856727977,
+        0.31369488880218493
+      ],
+      [
+        0.99,
+        0.816933638443936,
+        0.1392898946547015
+      ]
+    ],
+    "slices": {
+      "functionality": [
+        {
+          "functionality": "counter_quote_nh",
+          "n": 173,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.832,
+          "f1": 0.0
+        },
+        {
+          "functionality": "counter_ref_nh",
+          "n": 141,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.723,
+          "f1": 0.0
+        },
+        {
+          "functionality": "ident_neutral_nh",
+          "n": 126,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.032,
+          "f1": 0.0
+        },
+        {
+          "functionality": "ident_pos_nh",
+          "n": 189,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.132,
+          "f1": 0.0
+        },
+        {
+          "functionality": "profanity_nh",
+          "n": 100,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.87,
+          "f1": 0.0
+        },
+        {
+          "functionality": "negate_neg_nh",
+          "n": 133,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.654,
+          "f1": 0.0
+        },
+        {
+          "functionality": "slur_reclaimed_nh",
+          "n": 81,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.79,
+          "f1": 0.0
+        },
+        {
+          "functionality": "slur_homonym_nh",
+          "n": 30,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.5,
+          "f1": 0.0
+        },
+        {
+          "functionality": "target_group_nh",
+          "n": 62,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.613,
+          "f1": 0.0
+        },
+        {
+          "functionality": "target_indiv_nh",
+          "n": 65,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.862,
+          "f1": 0.0
+        },
+        {
+          "functionality": "target_obj_nh",
+          "n": 65,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.277,
+          "f1": 0.0
+        },
+        {
+          "functionality": "derog_impl_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.529,
+          "fpr": 0.0,
+          "f1": 0.692
+        },
+        {
+          "functionality": "spell_char_swap_h",
+          "n": 133,
+          "support": 133,
+          "precision": 1.0,
+          "recall": 0.571,
+          "fpr": 0.0,
+          "f1": 0.727
+        },
+        {
+          "functionality": "negate_pos_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.579,
+          "fpr": 0.0,
+          "f1": 0.733
+        },
+        {
+          "functionality": "spell_space_add_h",
+          "n": 173,
+          "support": 173,
+          "precision": 1.0,
+          "recall": 0.624,
+          "fpr": 0.0,
+          "f1": 0.769
+        },
+        {
+          "functionality": "slur_h",
+          "n": 144,
+          "support": 144,
+          "precision": 1.0,
+          "recall": 0.625,
+          "fpr": 0.0,
+          "f1": 0.769
+        },
+        {
+          "functionality": "spell_char_del_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.629,
+          "fpr": 0.0,
+          "f1": 0.772
+        },
+        {
+          "functionality": "spell_leet_h",
+          "n": 173,
+          "support": 173,
+          "precision": 1.0,
+          "recall": 0.642,
+          "fpr": 0.0,
+          "f1": 0.782
+        },
+        {
+          "functionality": "derog_neg_emote_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.707,
+          "fpr": 0.0,
+          "f1": 0.828
+        },
+        {
+          "functionality": "spell_space_del_h",
+          "n": 141,
+          "support": 141,
+          "precision": 1.0,
+          "recall": 0.723,
+          "fpr": 0.0,
+          "f1": 0.84
+        },
+        {
+          "functionality": "phrase_question_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.836,
+          "fpr": 0.0,
+          "f1": 0.911
+        },
+        {
+          "functionality": "derog_dehum_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.886,
+          "fpr": 0.0,
+          "f1": 0.939
+        },
+        {
+          "functionality": "derog_neg_attrib_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.893,
+          "fpr": 0.0,
+          "f1": 0.943
+        },
+        {
+          "functionality": "ref_subs_sent_h",
+          "n": 133,
+          "support": 133,
+          "precision": 1.0,
+          "recall": 0.91,
+          "fpr": 0.0,
+          "f1": 0.953
+        },
+        {
+          "functionality": "ref_subs_clause_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.914,
+          "fpr": 0.0,
+          "f1": 0.955
+        },
+        {
+          "functionality": "phrase_opinion_h",
+          "n": 133,
+          "support": 133,
+          "precision": 1.0,
+          "recall": 0.925,
+          "fpr": 0.0,
+          "f1": 0.961
+        },
+        {
+          "functionality": "profanity_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.95,
+          "fpr": 0.0,
+          "f1": 0.974
+        },
+        {
+          "functionality": "threat_norm_h",
+          "n": 140,
+          "support": 140,
+          "precision": 1.0,
+          "recall": 0.95,
+          "fpr": 0.0,
+          "f1": 0.974
+        },
+        {
+          "functionality": "threat_dir_h",
+          "n": 133,
+          "support": 133,
+          "precision": 1.0,
+          "recall": 0.985,
+          "fpr": 0.0,
+          "f1": 0.992
+        }
+      ]
+    },
+    "adversarial": [
+      {
+        "evasion": "diacritics",
+        "effort": "low",
+        "fluency_penalty": "low-med",
+        "esr": 1.0,
+        "recall_after": 0.0,
+        "recall_after_defense": 0.971,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "stack_zw_homoglyph",
+        "effort": "low",
+        "fluency_penalty": "zero",
+        "esr": 1.0,
+        "recall_after": 0.0,
+        "recall_after_defense": 0.971,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "zero_width",
+        "effort": "low",
+        "fluency_penalty": "zero",
+        "esr": 0.983,
+        "recall_after": 0.017,
+        "recall_after_defense": 0.971,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "homoglyph",
+        "effort": "low",
+        "fluency_penalty": "low",
+        "esr": 0.979,
+        "recall_after": 0.021,
+        "recall_after_defense": 0.971,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "leetspeak",
+        "effort": "low",
+        "fluency_penalty": "low-med",
+        "esr": 0.93,
+        "recall_after": 0.07,
+        "recall_after_defense": 0.958,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "word_split",
+        "effort": "low",
+        "fluency_penalty": "low",
+        "esr": 0.548,
+        "recall_after": 0.452,
+        "recall_after_defense": 0.443,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "punct_injection",
+        "effort": "low",
+        "fluency_penalty": "med",
+        "esr": 0.252,
+        "recall_after": 0.748,
+        "recall_after_defense": 0.228,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "typos",
+        "effort": "low",
+        "fluency_penalty": "low",
+        "esr": 0.237,
+        "recall_after": 0.763,
+        "recall_after_defense": 0.744,
+        "n_caught": 1964
+      },
+      {
+        "evasion": "space_injection",
+        "effort": "low",
+        "fluency_penalty": "med",
+        "esr": 0.042,
+        "recall_after": 0.958,
+        "recall_after_defense": 0.214,
+        "n_caught": 1964
+      }
+    ],
+    "errors": {
+      "false_negatives": [
+        {
+          "text": "I really can't stand women like you. ",
+          "score": 0.2743532657623291,
+          "functionality": "derog_neg_emote_h"
+        },
+        {
+          "text": "I really can't stand immigrants like you. ",
+          "score": 0.3936147093772888,
+          "functionality": "derog_neg_emote_h"
+        },
+        {
+          "text": "Disgusted by all the women around here. ",
+          "score": 0.04725516587495804,
+          "functionality": "derog_neg_emote_h"
+        },
+        {
+          "text": "Disgusted by all the trans people around here. ",
+          "score": 0.34643954038619995,
+          "functionality": "derog_neg_emote_h"
+        },
+        {
+          "text": "Disgusted by all the disabled people around here. ",
+          "score": 0.08065319061279297,
+          "functionality": "derog_neg_emote_h"
+        },
+        {
+          "text": "Disgusted by all the Muslims around here. ",
+          "score": 0.3645930886268616,
+          "functionality": "derog_neg_emote_h"
+        }
+      ],
+      "false_positives": [
+        {
+          "text": "We each ate a pan-fried faggot for dinner. ",
+          "score": 0.9230316877365112,
+          "functionality": "slur_homonym_nh"
+        },
+        {
+          "text": "The word faggot can describe a bundle of sticks bound together as fuel. ",
+          "score": 0.9471349120140076,
+          "functionality": "slur_homonym_nh"
+        },
+        {
+          "text": "There is a type of meatball eaten in the UK called faggot. ",
+          "score": 0.8998758792877197,
+          "functionality": "slur_homonym_nh"
+        },
+        {
+          "text": "She bought some faggots at the butcher. ",
+          "score": 0.9533710479736328,
+          "functionality": "slur_homonym_nh"
+        },
+        {
+          "text": "The faggots you cooked the other day were delicious. ",
+          "score": 0.9700270891189575,
+          "functionality": "slur_homonym_nh"
+        },
+        {
+          "text": "I went outside and smoked a fag. ",
+          "score": 0.8575799465179443,
+          "functionality": "slur_homonym_nh"
+        }
+      ]
+    },
+    "headline": {
+      "worst_slice": {
+        "column": "functionality",
+        "value": "derog_impl_h",
+        "recall": 0.529,
+        "support": 140
+      },
+      "cheapest_break": {
+        "evasion": "stack_zw_homoglyph",
+        "effort": "low",
+        "fluency_penalty": "zero",
+        "esr": 1.0,
+        "recall_after": 0.0,
+        "recall_after_defense": 0.971,
+        "n_caught": 1964
+      }
+    }
+  }
+}

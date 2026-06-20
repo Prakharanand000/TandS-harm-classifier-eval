@@ -1,0 +1,8 @@
+# Interactive robustness scanner (scripts/scanner_app.py).
+# The Live Attack Lab (ToyClassifier) and the cached Scan Report run with just
+# these. Detoxify and the LLM red-team are imported lazily; add the packages
+# from requirements.txt to enable them locally.
+streamlit>=1.30
+altair>=5.0
+pandas>=2.0
+numpy>=1.26

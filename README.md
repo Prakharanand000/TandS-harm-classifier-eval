@@ -20,6 +20,28 @@ paper with the full findings, figures, and method.
 > handled inside a sanctioned, legally-authorized pipeline. The *methods*
 > transfer to production; the data deliberately does not.
 
+## Interactive scanner
+
+The fastest way to see what this does is the **robustness scanner** — an
+interactive console (Streamlit) for a Trust & Safety reviewer to poke at:
+
+```bash
+pip install -r requirements-app.txt
+streamlit run scripts/scanner_app.py
+```
+
+- **🔬 Live Attack Lab** — type any comment and watch every evasion attack it in
+  real time: which cheap disguises slip it past the filter, and which a
+  normalization defense recovers. Optional one-click LLM paraphrase attack.
+- **📊 Scan Report** — a full prioritized weakness report for a real classifier,
+  loaded from the committed result caches (no model download): aggregate metrics,
+  the slice cliff, the cost-vs-impact adversarial chart, and a ranked fix list.
+- **ℹ️ For Reviewers** — the scope, the methods-transfer-not-data stance, and why
+  both error directions matter.
+
+The Live Attack Lab defaults to the instant offline `ToyClassifier`; switch to
+Detoxify (real model) in the sidebar locally. Public proxy data only.
+
 ## Quickstart
 
 ```bash
