@@ -10,6 +10,10 @@ Built as a portfolio piece for Trust & Safety / abuse-detection analyst work.
 The deliverable is the memo in `outputs/` — it reads like the actual work
 product of the role, not a notebook dump.
 
+📄 **Write-up:** [`PAPER.md`](PAPER.md) — *Below the Aggregate: Slice and
+Adversarial Failure Modes of a Production Toxicity Classifier*, the working
+paper with the full findings, figures, and method.
+
 > **Data ethics.** This harness uses **public proxy data only** (ordinary
 > toxic-comment / hate-speech datasets). It does not touch — and must not be
 > pointed at — CSAM, NCII, or violent-extremism material, which can only be

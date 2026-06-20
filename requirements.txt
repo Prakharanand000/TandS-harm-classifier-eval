@@ -1,12 +1,12 @@
-# Core (smoke test needs only these; all standard scientific Python)
-numpy
-pandas
-matplotlib
-scikit-learn
+# Core (smoke test + metrics need only these; all standard scientific Python)
+numpy>=1.26
+pandas>=2.0
+matplotlib>=3.8
 
-# Real runs (scripts/run_eval.py)
+# Real runs (scripts/run_eval.py). detoxify pulls in torch + transformers;
+# tested with torch 2.11 / transformers 5.3 (a benign position_ids warning).
 detoxify>=0.5.2
 datasets>=2.14.0
 
-# Optional LLM red-team layer (src/redteam.py)
+# Optional LLM red-team layer (src/redteam.py, scripts/run_redteam.py)
 anthropic>=0.39.0
