@@ -51,12 +51,24 @@ st.markdown("""
 # Model loading (cached so it loads once per session)
 # --------------------------------------------------------------------------- #
 @st.cache_resource(show_spinner="Loading classifier…")
-def load_model(choice: str):
+def _load_model(choice: str):
     if choice.startswith("Detoxify"):
         from src.models import DetoxifyModel
         return DetoxifyModel("unbiased")
     from src.models import ToyClassifier
     return ToyClassifier()
+
+
+def load_model(choice: str):
+    """Return (model, warning|None). Falls back to the offline ToyClassifier if
+    the real model can't load — e.g. detoxify isn't installed on a lightweight
+    public deployment — so the demo never hard-crashes on model choice."""
+    try:
+        return _load_model(choice), None
+    except Exception as e:
+        return _load_model("ToyClassifier"), (
+            f"Real model unavailable here ({type(e).__name__}); using the offline "
+            "ToyClassifier. Install `detoxify` to run the real model locally.")
 
 
 @st.cache_data(show_spinner=False)
@@ -127,7 +139,9 @@ with tab_lab:
     if pick != "—":
         seed_text = pick
 
-    model = load_model(model_choice)
+    model, warn = load_model(model_choice)
+    if warn:
+        st.warning(warn)
     base = float(model.predict_proba([seed_text])[0])
     flagged = base >= threshold
 
