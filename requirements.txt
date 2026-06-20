@@ -1,0 +1,12 @@
+# Core (smoke test needs only these; all standard scientific Python)
+numpy
+pandas
+matplotlib
+scikit-learn
+
+# Real runs (scripts/run_eval.py)
+detoxify>=0.5.2
+datasets>=2.14.0
+
+# Optional LLM red-team layer (src/redteam.py)
+anthropic>=0.39.0

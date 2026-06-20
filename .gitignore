@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+
+# Secrets — never commit
+.env
+.env.*
+*.key
+secrets.*
+
+# Generated artifacts
+outputs/*.png
+outputs/*.results.json
+
+# Red-team survivors: paraphrases that bypass a real classifier. Withheld by
+# default as a dual-use precaution; remove this line only if you deliberately
+# decide to publish them.
+outputs/redteam_variants.jsonl

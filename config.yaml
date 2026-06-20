@@ -1,0 +1,15 @@
+# Default run configuration (scripts read sensible defaults; this documents knobs)
+threshold: 0.5
+dataset: civil_comments      # civil_comments | hatecheck
+sample: 5000
+detoxify_variant: unbiased   # original | unbiased | multilingual
+evasions:                    # null = all registered evasions
+  - homoglyph
+  - leetspeak
+  - zero_width
+  - space_injection
+  - diacritics
+  - typos
+  - word_split
+  - stack_zw_homoglyph
+population_volume: 10000000  # for absolute-scale translation in the memo
