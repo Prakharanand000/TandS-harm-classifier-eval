@@ -3,6 +3,10 @@ __pycache__/
 .venv/
 .DS_Store
 
+# Web build artifacts (the Docker build regenerates these from web/frontend/)
+web/frontend/node_modules/
+web/backend/static/
+
 # Secrets — never commit
 .env
 .env.*
