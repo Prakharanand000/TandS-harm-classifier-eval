@@ -1,0 +1,15 @@
+# Render blueprint. One Docker web service builds the React frontend and serves
+# it from FastAPI together with the API. Build context is the repo root so the
+# image can copy src/ (shared with the research harness).
+services:
+  - type: web
+    name: robustness-review
+    runtime: docker
+    dockerfilePath: ./web/backend/Dockerfile
+    dockerContext: .
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"

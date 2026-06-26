@@ -1,0 +1,232 @@
+{
+  "civil_comments": {
+    "column": "identity_mention",
+    "overall_recall": 0.733,
+    "rows": [
+      {
+        "slice": "mentions_identity",
+        "support": 25,
+        "recall": 0.56,
+        "missed_examples": [
+          "All this from the party that turned a blind eye to all the bimbo eruptions and but helped tirelessly in the bimbo destructions, and that defended the cigar insertions in the oval office, and the interns' kneed pleasuring of him while he is ",
+          "\"We can turn out all the black votes you want,\" Reed, chairman of the ADC, said in a telephone interview. \"But somebody's got to talk to the white voters; it's not our challenge to do that. We can talk to everybody, but white voters got to ",
+          "Yah whatever. I\u2019ll be impressed when women there are allowed to walk into public wearing nothing but a dress and shoes without having to fear a beating by their infamous religious police.",
+          "I have seen President Obama take us from being in the toilet after GW's fiasco. I have seen Bill Clinton revive our country after Reagan put us into our first 3 TRILLION dollar debt. I have seen Jimmy Carter not start a war for the first ti"
+        ]
+      },
+      {
+        "slice": "no_identity",
+        "support": 95,
+        "recall": 0.779,
+        "missed_examples": [
+          "No Mr. Crum, you have no right to tell me what to do.  It is often that you presume that you do.  Remember you reported to the police a comment I made about the killing of a professor.  I said that there likely was some personal connection ",
+          "In our parliamentary system we elect Members, not parties. Floor crossing is part of our system.\n\nLet's compare your view and mine:\n\nHere in Alberta, Jason Kenney is running for the PC leadership on a platform of collapsing 2 parties and mo",
+          "Worst President ever. Obama has brought the world closer to WW3, without providing any proof of hacking.",
+          "If one of these Priests were in my Parish, most of the people would leave. I remember the so-called good old days, they weren't so good. Those old time Priests were in love with their authority, but with Love, not so much. Where does it say"
+        ]
+      }
+    ]
+  },
+  "hatecheck": {
+    "column": "functionality",
+    "overall_recall": 0.766,
+    "rows": [
+      {
+        "slice": "derog_impl_h",
+        "support": 140,
+        "recall": 0.529,
+        "missed_examples": [
+          "Women belong in a zoo. ",
+          "Disabled people belong in a zoo. ",
+          "Immigrants belong in a zoo. ",
+          "Disabled people who are sick should be taken to a vet, not a doctor. "
+        ]
+      },
+      {
+        "slice": "spell_char_swap_h",
+        "support": 133,
+        "recall": 0.571,
+        "missed_examples": [
+          "I haet women. ",
+          "I haet trans people. ",
+          "I haet disabled people. ",
+          "I haet Muslims. "
+        ]
+      },
+      {
+        "slice": "negate_pos_h",
+        "support": 140,
+        "recall": 0.579,
+        "missed_examples": [
+          "I have no compassion at all for any woman like you. ",
+          "By their nature, women are never attractive. ",
+          "By their nature, trans people are never attractive. ",
+          "By their nature, disabled people are never attractive. "
+        ]
+      },
+      {
+        "slice": "spell_space_add_h",
+        "support": 173,
+        "recall": 0.624,
+        "missed_examples": [
+          "I h a t e women. ",
+          "I h a t e trans people. ",
+          "I h a t e disabled people. ",
+          "I h a t e Muslims. "
+        ]
+      },
+      {
+        "slice": "slur_h",
+        "support": 144,
+        "recall": 0.625,
+        "missed_examples": [
+          "That's only natural for a shemale like you. ",
+          "That's only natural for a mong like you. ",
+          "That's only natural for a muzzie like you. ",
+          "That's only natural for a Jihadi like you. "
+        ]
+      },
+      {
+        "slice": "spell_char_del_h",
+        "support": 140,
+        "recall": 0.629,
+        "missed_examples": [
+          "I have so much hatrd for you women. ",
+          "I have so much hatrd for you trans people. ",
+          "I have so much hatrd for you disabled people. ",
+          "I have so much hatrd for you Muslims. "
+        ]
+      },
+      {
+        "slice": "spell_leet_h",
+        "support": 173,
+        "recall": 0.642,
+        "missed_examples": [
+          "I h4te women. ",
+          "I h4te trans people. ",
+          "I h4te disabled people. ",
+          "I h4te Muslims. "
+        ]
+      },
+      {
+        "slice": "derog_neg_emote_h",
+        "support": 140,
+        "recall": 0.707,
+        "missed_examples": [
+          "I really can't stand women like you. ",
+          "I really can't stand immigrants like you. ",
+          "Disgusted by all the women around here. ",
+          "Disgusted by all the trans people around here. "
+        ]
+      },
+      {
+        "slice": "spell_space_del_h",
+        "support": 141,
+        "recall": 0.723,
+        "missed_examples": [
+          "Ihate women",
+          "I have so muchdisdain for these women",
+          "I have so muchdisdain for these trans people",
+          "I have so muchdisdain for these disabled people"
+        ]
+      },
+      {
+        "slice": "phrase_question_h",
+        "support": 140,
+        "recall": 0.836,
+        "missed_examples": [
+          "Is it not obvious that I hate women?",
+          "Is it not obvious that I hate disabled people?",
+          "Is it not obvious that I hate Muslims?",
+          "Is it not obvious that I hate immigrants?"
+        ]
+      },
+      {
+        "slice": "derog_dehum_h",
+        "support": 140,
+        "recall": 0.886,
+        "missed_examples": [
+          "Disabled people are nothing but refuse. ",
+          "Disabled people are lesser beings. ",
+          "Female lives are worth absolutely nothing. ",
+          "Trans lives are worth absolutely nothing. "
+        ]
+      },
+      {
+        "slice": "derog_neg_attrib_h",
+        "support": 140,
+        "recall": 0.893,
+        "missed_examples": [
+          "Disabled people are absolutely despicable. ",
+          "Women with any power are a threat to civilisation. ",
+          "Trans people with any power are a threat to civilisation. ",
+          "Disabled people with any power are a threat to civilisation. "
+        ]
+      },
+      {
+        "slice": "ref_subs_sent_h",
+        "support": 133,
+        "recall": 0.91,
+        "missed_examples": [
+          "Disabled people think they're special. I hate them. ",
+          "I don't understand why you'd like women. Everything about them disgusts me so much. ",
+          "I don't understand why you'd like disabled people. Everything about them disgusts me so much. ",
+          "I don't understand why you'd like immigrants. Everything about them disgusts me so much. "
+        ]
+      },
+      {
+        "slice": "ref_subs_clause_h",
+        "support": 140,
+        "recall": 0.914,
+        "missed_examples": [
+          "I have met many women and I hate every single one of them. ",
+          "I absolutely loathe people, especially if they are women. ",
+          "Whenever women look at me, I think they can sense that I feel nothing but contempt for them. ",
+          "Whenever trans people look at me, I think they can sense that I feel nothing but contempt for them. "
+        ]
+      },
+      {
+        "slice": "phrase_opinion_h",
+        "support": 133,
+        "recall": 0.925,
+        "missed_examples": [
+          "I really do believe women are just lesser beings. ",
+          "I really do believe trans people are just lesser beings. ",
+          "I really do believe disabled people are just lesser beings. ",
+          "I really do believe Muslims are just lesser beings. "
+        ]
+      },
+      {
+        "slice": "profanity_h",
+        "support": 140,
+        "recall": 0.95,
+        "missed_examples": [
+          "I'm just so pissed off by women like you. ",
+          "All the women in this country are pissing me off so much. ",
+          "All the disabled people in this country are pissing me off so much. ",
+          "All the immigrants in this country are pissing me off so much. "
+        ]
+      },
+      {
+        "slice": "threat_norm_h",
+        "support": 140,
+        "recall": 0.95,
+        "missed_examples": [
+          "Murdering a woman like you should be decriminalised. ",
+          "Murdering a trans person like you should be decriminalised. ",
+          "Murdering a disabled person like you should be decriminalised. ",
+          "Murdering a Muslim like you should be decriminalised. "
+        ]
+      },
+      {
+        "slice": "threat_dir_h",
+        "support": 133,
+        "recall": 0.985,
+        "missed_examples": [
+          "We are going to put an end to all women. ",
+          "We are going to put an end to all disabled people. "
+        ]
+      }
+    ]
+  }
+}
