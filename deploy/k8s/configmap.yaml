@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harm-scorer-config
+  namespace: content-safety
+data:
+  kafka_bootstrap: "kafka.content-safety.svc.cluster.local:9092"
+  batch_size: "64"           # matches Detoxify's optimal CPU batch; use 32 for GPU
+  score_threshold: "0.5"    # operating point — change here, no redeploy needed
+  bloom_capacity: "1000000" # expected denylist size; resize bit array accordingly
+  bloom_fp_rate: "0.001"    # 0.1% false-positive rate → 14.4 bits/element
+  redis_ttl_seconds: "86400" # 24-hour score cache TTL
+  input_topic: "comments.raw"
+  output_topic: "comments.scored"

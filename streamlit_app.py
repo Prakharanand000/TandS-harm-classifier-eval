@@ -1,14 +1,36 @@
-"""Entry point for Hugging Face Spaces / Streamlit Community Cloud.
+"""Retired — this Hugging Face Space has moved to Render.
 
-Both platforms auto-detect a top-level ``streamlit_app.py``. The actual app
-lives in ``scripts/scanner_app.py``; this thin wrapper runs it. ``runpy`` is used
-(not ``import``) so the script re-executes on every Streamlit rerun rather than
-being cached as an already-imported module.
+The scanner has been replatformed as a FastAPI + React app with four
+interactive tabs (Live Scanner, Attack Lab, Slice Explorer, Calibration
+Dashboard). Please visit the new location.
 """
-import os
-import runpy
-import sys
+import streamlit as st
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, ROOT)
-runpy.run_path(os.path.join(ROOT, "scripts", "scanner_app.py"), run_name="__main__")
+st.set_page_config(page_title="Moved — Robustness Review", page_icon="🔬")
+
+st.title("This Space has moved")
+st.markdown("""
+The **Harm Classifier Robustness Scanner** has been replatformed as a
+full-featured FastAPI + React app.
+
+### New location
+
+**[https://robustness-review.onrender.com](https://robustness-review.onrender.com)**
+
+The new app includes:
+- **Live Scanner** — toxicity gauge, FLAGGED / BORDERLINE / CLEAN verdict,
+  Bloom-filter tier-0 pre-check
+- **Attack Lab** — full 9-attack evasion matrix with normalization defenses
+- **Slice Explorer** — 18 HateCheck slices with real missed examples
+- **Calibration Dashboard** — dual reliability curves with a draggable
+  threshold slider
+
+Source code and working paper:
+[github.com/Prakharanand000/TandS-harm-classifier-eval](https://github.com/Prakharanand000/TandS-harm-classifier-eval)
+""")
+
+st.info("You will be redirected automatically in a moment.")
+st.markdown(
+    '<meta http-equiv="refresh" content="4; url=https://robustness-review.onrender.com">',
+    unsafe_allow_html=True,
+)

@@ -15,7 +15,7 @@ Adversarial Failure Modes of a Production Toxicity Classifier*, the working
 paper with the full findings, figures, and method.
 
 🚀 **Live demo (no install):** the robustness scanner on
-[Hugging Face Spaces](https://prakharanand85-harm-classifier-scanner.hf.space) —
+[Render](https://robustness-review.onrender.com) —
 type a comment and watch evasions attack a classifier in real time.
 
 > **Data ethics.** This harness uses **public proxy data only** (ordinary
@@ -26,29 +26,31 @@ type a comment and watch evasions attack a classifier in real time.
 
 ## Interactive scanner
 
-The fastest way to see what this does is the **robustness scanner** — an
-interactive console (Streamlit) for a Trust & Safety reviewer to poke at.
+The fastest way to see what this does is the **robustness scanner** — a
+FastAPI + React app with four interactive tabs.
 
-**▶ Try it live (no install):** <https://prakharanand85-harm-classifier-scanner.hf.space>
+**▶ Try it live (no install):** <https://robustness-review.onrender.com>
 
-Or run it locally:
+- **Live Scanner** — type any comment and get a toxicity gauge, a FLAGGED /
+  BORDERLINE / CLEAN verdict, slice-category prediction, and a Bloom-filter
+  pre-check (tier-0 denylist, O(k), no model call).
+- **Attack Lab** — run the full 9-attack evasion matrix against any text and
+  see which disguises slip past the model, which a normalization defense
+  recovers, and where semantic paraphrase escapes both.
+- **Slice Explorer** — interactive bar chart of per-slice recall across 18
+  HateCheck categories; click any bar to see the real sentences the model
+  missed (implicit hate recall: 0.53 vs 0.77 aggregate).
+- **Calibration Dashboard** — dual reliability curves for Civil Comments
+  (ECE 0.022) and HateCheck (ECE 0.226) with a draggable threshold slider
+  that updates precision / recall / FPR live for both datasets simultaneously.
+
+Or run locally:
 
 ```bash
-pip install -r requirements-app.txt
-streamlit run scripts/scanner_app.py
+cd web/frontend && npm install && npm run build
+cd ../backend && pip install -r requirements.txt
+uvicorn main:app --reload
 ```
-
-- **🔬 Live Attack Lab** — type any comment and watch every evasion attack it in
-  real time: which cheap disguises slip it past the filter, and which a
-  normalization defense recovers. Optional one-click LLM paraphrase attack.
-- **📊 Scan Report** — a full prioritized weakness report for a real classifier,
-  loaded from the committed result caches (no model download): aggregate metrics,
-  the slice cliff, the cost-vs-impact adversarial chart, and a ranked fix list.
-- **ℹ️ For Reviewers** — the scope, the methods-transfer-not-data stance, and why
-  both error directions matter.
-
-The Live Attack Lab defaults to the instant offline `ToyClassifier`; switch to
-Detoxify (real model) in the sidebar locally. Public proxy data only.
 
 ## Quickstart
 

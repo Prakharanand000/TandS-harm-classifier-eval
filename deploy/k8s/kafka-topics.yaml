@@ -1,0 +1,36 @@
+# Strimzi KafkaTopic CRDs — requires Strimzi operator installed in the cluster.
+# https://strimzi.io/docs/operators/latest/deploying.html
+#
+# Two topics:
+#   comments.raw    — raw content from all ingest surfaces; consumers normalize + score
+#   comments.scored — scored output; consumed by the decision service + guardrail monitor
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: comments-raw
+  namespace: content-safety
+  labels:
+    strimzi.io/cluster: content-safety-kafka
+spec:
+  partitions: 32        # partition by user_id for per-user velocity signals
+  replicas: 3
+  config:
+    retention.ms: "86400000"   # 24-hour replay window
+    cleanup.policy: delete
+    compression.type: lz4
+    max.message.bytes: "1048576"  # 1 MB ceiling per comment (generous)
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: comments-scored
+  namespace: content-safety
+  labels:
+    strimzi.io/cluster: content-safety-kafka
+spec:
+  partitions: 32
+  replicas: 3
+  config:
+    retention.ms: "604800000"  # 7-day retention for audit + guardrail monitoring
+    cleanup.policy: delete
+    compression.type: lz4

@@ -1,0 +1,98 @@
+<svg viewBox="0 0 980 520" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#555"/>
+    </marker>
+    <style>
+      .box{fill:#fff;stroke:#111;stroke-width:1.2;}
+      .k{fill:#f3ede0;stroke:#6d28d9;}
+      .red{stroke:#b91c1c;}
+      .grn{stroke:#15803d;}
+      .t{fill:#111;font-size:12px;font-weight:600;}
+      .s{fill:#777;font-size:10px;}
+      .lbl{fill:#6d28d9;font-size:9px;font-weight:700;letter-spacing:1px;}
+      .ttl{fill:#111;font-size:13px;font-weight:800;font-family:"Playfair Display",serif;}
+    </style>
+  </defs>
+
+  <text x="20" y="28" class="ttl">Production scale architecture — millions of comments/day</text>
+  <text x="20" y="46" class="s">The demo on Render is one box. At platform volume the same methodology becomes a cost-tiered, streamed pipeline.</text>
+
+  <!-- sources -->
+  <rect class="box" x="20" y="80" width="120" height="60" rx="3"/>
+  <text x="32" y="106" class="t">Ingest sources</text>
+  <text x="32" y="122" class="s">comments, posts,</text>
+  <text x="32" y="134" class="s">edits, appeals</text>
+
+  <!-- kafka -->
+  <rect class="box k" x="180" y="72" width="130" height="76" rx="3"/>
+  <text x="192" y="92" class="lbl">KAFKA</text>
+  <text x="192" y="110" class="t">comments.raw</text>
+  <text x="192" y="126" class="s">partitioned by user;</text>
+  <text x="192" y="138" class="s">replay + backpressure</text>
+
+  <!-- tier 0 bloom -->
+  <rect class="box red" x="350" y="72" width="120" height="76" rx="3"/>
+  <text x="362" y="92" class="lbl" fill="#b91c1c">TIER-0</text>
+  <text x="362" y="110" class="t">Bloom pre-filter</text>
+  <text x="362" y="126" class="s">known-bad denylist;</text>
+  <text x="362" y="138" class="s">O(k), no model call</text>
+
+  <!-- normalize -->
+  <rect class="box grn" x="510" y="72" width="120" height="76" rx="3"/>
+  <text x="522" y="92" class="lbl" fill="#15803d">DEFENSE</text>
+  <text x="522" y="110" class="t">Normalize</text>
+  <text x="522" y="126" class="s">fold homoglyphs,</text>
+  <text x="522" y="138" class="s">strip zero-width, de-leet</text>
+
+  <!-- inference pool (k8s) -->
+  <rect class="box k" x="670" y="60" width="160" height="100" rx="3"/>
+  <text x="684" y="80" class="lbl">KUBERNETES + HPA</text>
+  <text x="684" y="100" class="t">Inference workers</text>
+  <text x="684" y="116" class="s">GPU pool, batched;</text>
+  <text x="684" y="128" class="s">autoscale on Kafka lag;</text>
+  <text x="684" y="140" class="s">Detoxify / fine-tuned</text>
+  <rect x="690" y="146" width="130" height="8" fill="none" stroke="#6d28d9" stroke-dasharray="3 2"/>
+
+  <!-- redis cache -->
+  <rect class="box" x="670" y="190" width="160" height="54" rx="3"/>
+  <text x="684" y="212" class="lbl" fill="#b45309">REDIS</text>
+  <text x="684" y="230" class="t">Dedup + score cache</text>
+
+  <!-- decision -->
+  <rect class="box" x="860" y="78" width="100" height="64" rx="3"/>
+  <text x="872" y="104" class="t">Decision</text>
+  <text x="872" y="120" class="s">allow / review /</text>
+  <text x="872" y="132" class="s">action</text>
+
+  <!-- monitoring -->
+  <rect class="box" x="510" y="300" width="200" height="70" rx="3"/>
+  <text x="524" y="322" class="lbl" fill="#111">GUARDRAILS</text>
+  <text x="524" y="340" class="t">Slice recall + calibration</text>
+  <text x="524" y="356" class="s">per-slice / per-region drift alerts</text>
+
+  <!-- redteam loop -->
+  <rect class="box k" x="180" y="300" width="280" height="70" rx="3"/>
+  <text x="194" y="322" class="lbl">OFFLINE LOOP</text>
+  <text x="194" y="340" class="t">LLM red-team → hard negatives → retrain</text>
+  <text x="194" y="356" class="s">the only durable defense vs. semantic paraphrase evasions</text>
+
+  <!-- arrows top row -->
+  <g fill="none" stroke="#555" stroke-width="1.4" marker-end="url(#a)">
+    <path d="M140,110 L178,110"/>
+    <path d="M310,110 L348,110"/>
+    <path d="M470,110 L508,110"/>
+    <path d="M630,110 L668,110"/>
+    <path d="M830,110 L858,108"/>
+    <path d="M750,160 L750,188"/>
+  </g>
+  <text x="318" y="64" class="s" fill="#b91c1c">hit → straight to review</text>
+
+  <!-- arrows to monitoring + loop -->
+  <g fill="none" stroke="#999" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#a)">
+    <path d="M750,160 C750,250 660,300 610,300"/>
+    <path d="M510,335 C400,335 360,335 348,335" />
+    <path d="M320,300 C320,230 690,150 690,120"/>
+  </g>
+  <text x="360" y="392" class="s">retrained weights redeploy to the inference pool ↑</text>
+</svg>

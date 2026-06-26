@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: harm-scorer
+  namespace: content-safety
+  labels:
+    app: harm-scorer
+spec:
+  type: ClusterIP
+  selector:
+    app: harm-scorer
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000

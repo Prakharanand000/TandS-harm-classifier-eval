@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harm-scorer
+  namespace: content-safety
+  labels:
+    app: harm-scorer
+    component: inference
+spec:
+  replicas: 2                      # KEDA HPA overrides this at runtime
+  selector:
+    matchLabels:
+      app: harm-scorer
+  template:
+    metadata:
+      labels:
+        app: harm-scorer
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+    spec:
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-l4   # swap for nvidia-a10g on AWS
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: scorer
+          image: ghcr.io/prakharanand000/harm-scorer:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            - name: KAFKA_BOOTSTRAP
+              valueFrom:
+                configMapKeyRef:
+                  name: harm-scorer-config
+                  key: kafka_bootstrap
+            - name: KAFKA_GROUP_ID
+              value: harm-scorer-workers
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: harm-scorer-secrets
+                  key: redis_url
+            - name: BATCH_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: harm-scorer-config
+                  key: batch_size
+            - name: SCORE_THRESHOLD
+              valueFrom:
+                configMapKeyRef:
+                  name: harm-scorer-config
+                  key: score_threshold
+          resources:
+            requests:
+              memory: "1500Mi"
+              cpu: "500m"
+              nvidia.com/gpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
+              nvidia.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30   # model load time
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          volumeMounts:
+            - name: model-cache
+              mountPath: /root/.cache/torch
+      volumes:
+        - name: model-cache
+          emptyDir: {}               # warm from registry layer; swap for PVC if slow pulls

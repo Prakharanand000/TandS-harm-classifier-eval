@@ -1,0 +1,25 @@
+# KEDA ScaledObject — autoscales the inference pool on Kafka consumer-group lag.
+# Requires: https://keda.sh installed in the cluster.
+#
+# Scaling logic: 1 pod per 5000 messages of lag, min 2, max 40.
+# At 10 M comments/day (avg 116/sec) and 50 ms/item throughput per pod,
+# steady-state is ~6 pods; a 10× spike caps at 40 pods = cost ceiling.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: harm-scorer-scaler
+  namespace: content-safety
+spec:
+  scaleTargetRef:
+    name: harm-scorer
+  minReplicaCount: 2
+  maxReplicaCount: 40
+  cooldownPeriod: 120      # seconds to wait before scaling down
+  triggers:
+    - type: kafka
+      metadata:
+        bootstrapServers: kafka.content-safety.svc.cluster.local:9092
+        consumerGroup: harm-scorer-workers
+        topic: comments.raw
+        lagThreshold: "5000"
+        offsetResetPolicy: latest
