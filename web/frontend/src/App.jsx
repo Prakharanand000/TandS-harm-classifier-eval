@@ -1,52 +1,61 @@
 import { useState } from "react";
-import LiveScanner from "./tabs/LiveScanner.jsx";
-import AttackLab from "./tabs/AttackLab.jsx";
+import LiveScanner   from "./tabs/LiveScanner.jsx";
+import AttackLab     from "./tabs/AttackLab.jsx";
 import SliceExplorer from "./tabs/SliceExplorer.jsx";
-import Calibration from "./tabs/Calibration.jsx";
+import Calibration   from "./tabs/Calibration.jsx";
 
 const TABS = [
-  ["scanner", "Live Scanner", LiveScanner],
-  ["attack", "Attack Lab", AttackLab],
-  ["slices", "Slice Explorer", SliceExplorer],
-  ["calib", "Calibration", Calibration],
+  ["scanner", "Live Scanner",   LiveScanner],
+  ["attack",  "Attack Lab",     AttackLab],
+  ["slices",  "Slice Explorer", SliceExplorer],
+  ["calib",   "Calibration",    Calibration],
 ];
 
 export default function App() {
-  const [tab, setTab] = useState("scanner");
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "long", month: "long", day: "numeric", year: "numeric",
-  });
-  const Active = TABS.find((t) => t[0] === tab)[2];
+  const [active, setActive] = useState("scanner");
+  const Tab = TABS.find(t => t[0] === active)[2];
 
   return (
     <div className="wrap">
-      <div className="masthead">
-        <div className="mh-top">
-          <span>{today}</span>
-          <span>Trust &amp; Safety · Adversarial Robustness</span>
+      <header className="hdr">
+        <div className="hdr-logo">🛡️</div>
+        <div>
+          <div className="hdr-title">T&amp;S Analyst Workstation</div>
+          <div className="hdr-sub">Harm Classifier Robustness Review</div>
         </div>
-        <div className="mh-title">The Robustness Review</div>
-        <div className="mh-sub">
-          Where a content-safety classifier breaks, before an adversary finds it
+        <div className="hdr-right">
+          <span className="model-tag">Detoxify · unbiased</span>
+          <div className="status-pill">
+            <div className="status-dot" />
+            API live
+          </div>
         </div>
-      </div>
+      </header>
 
       <nav className="nav">
         {TABS.map(([id, label]) => (
-          <button key={id} className={tab === id ? "active" : ""} onClick={() => setTab(id)}>
+          <div
+            key={id}
+            className={"nav-tab" + (active === id ? " active" : "")}
+            onClick={() => setActive(id)}
+          >
             {label}
-          </button>
+          </div>
         ))}
       </nav>
 
-      <Active />
+      <Tab />
 
-      <div className="foot">
-        <span>Public proxy data only · a methodology demonstrator, not an egregious-harms detector</span>
-        <a href="https://github.com/Prakharanand000/TandS-harm-classifier-eval" target="_blank" rel="noreferrer">
-          github.com/Prakharanand000/TandS-harm-classifier-eval
-        </a>
-      </div>
+      <footer className="foot">
+        <span>Harm Classifier Robustness Review · Detoxify (unbiased) · threshold 0.5</span>
+        <span>
+          <a href="https://github.com/Prakharanand000/TandS-harm-classifier-eval" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          {" · "}
+          <a href="/api/health" target="_blank" rel="noreferrer">API health</a>
+        </span>
+      </footer>
     </div>
   );
 }

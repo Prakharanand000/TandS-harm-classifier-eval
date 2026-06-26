@@ -1,79 +1,118 @@
 import { useEffect, useState } from "react";
 import { get } from "../api.js";
 
+function barColor(v) {
+  if (v >= 0.75) return "#3fb950";
+  if (v >= 0.6)  return "#d29922";
+  return "#f85149";
+}
+
+function SliceRow({ row, expanded, onToggle }) {
+  const pct = Math.round((row.recall ?? 0) * 100);
+  return (
+    <>
+      <div className="slice-row" onClick={onToggle}>
+        <div className="slice-cat" title={row.slice}>{row.slice}</div>
+        <div className="slice-track">
+          <div
+            className="slice-bar"
+            style={{width: `${pct}%`, background: barColor(row.recall ?? 0)}}
+          />
+        </div>
+        <div className="slice-pct" style={{color: barColor(row.recall ?? 0)}}>
+          {pct}%
+        </div>
+        <div style={{color:"var(--muted2)", fontSize:11, width:48, textAlign:"right", flexShrink:0}}>
+          n={row.support}
+        </div>
+        <div style={{color:"var(--muted2)", fontSize:11, width:14, textAlign:"right", flexShrink:0}}>
+          {expanded ? "▾" : "▸"}
+        </div>
+      </div>
+
+      {expanded && row.missed_examples?.length > 0 && (
+        <div style={{padding:"10px 14px 14px", background:"var(--panel)", borderBottom:"1px solid var(--border)"}}>
+          <div className="missed-note">
+            Examples the model missed (false negatives):
+          </div>
+          {row.missed_examples.map((ex, i) => (
+            <div key={i} className="missed-ex">
+              <span>"{ex}"</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function SliceExplorer() {
-  const [data, setData] = useState(null);
-  const [ds, setDs] = useState("hatecheck");
-  const [sel, setSel] = useState(null);
+  const [data,     setData]     = useState(null);
+  const [err,      setErr]      = useState(null);
+  const [dataset,  setDataset]  = useState("hatecheck");
+  const [expanded, setExpanded] = useState(null);
 
-  useEffect(() => { get("/api/slices").then(setData).catch(() => setData({})); }, []);
-  useEffect(() => { setSel(null); }, [ds]);
+  useEffect(() => {
+    setData(null);
+    get("/api/slices")
+      .then(d => setData(d))
+      .catch(e => setErr(e.message));
+  }, []);
 
-  if (!data) return <div className="spinner" />;
-  const names = Object.keys(data);
-  const d = data[ds] || data[names[0]];
-  if (!d) return <div className="note">No slice data.</div>;
-  const worst = d.rows[0];
-  const selected = sel != null ? d.rows.find((r) => r.slice === sel) : null;
+  const ds = data?.[dataset];
+  const rows = ds?.rows ?? [];
+  const sorted = [...rows].sort((a, b) => (a.recall ?? 0) - (b.recall ?? 0));
 
   return (
-    <div>
-      <div className="byline">The Beat · Where recall collapses</div>
-      <div className="lead sm">The slice cliff</div>
-      <div className="standfirst">
-        Aggregate recall of {d.overall_recall.toFixed(2)} averages away the misses.
-        Slice it, and the failures appear. Click a bar to read real comments the model
-        missed in that slice.
-      </div>
+    <div className="tab-body">
+      <div className="sec-label">Slice Performance</div>
 
-      <div className="row" style={{ marginBottom: 14 }}>
-        {names.map((n) => (
-          <button key={n} className="go" onClick={() => setDs(n)}
-            style={n === ds ? {} : { background: "#fff", color: "#111", border: "1px solid #ccc", fontWeight: 600 }}>
-            {n}
-          </button>
-        ))}
-      </div>
-
-      <div className="note red" style={{ marginBottom: 16 }}>
-        <b>Worst slice.</b> <code>{d.column}={worst.slice}</code> recall{" "}
-        <b>{worst.recall.toFixed(2)}</b> vs {d.overall_recall.toFixed(2)} overall —{" "}
-        {Math.round((1 - worst.recall / Math.max(d.overall_recall, 1e-9)) * 100)}% below the aggregate,
-        on {worst.support} positives.
-      </div>
-
-      {d.rows.map((r) => (
-        <div key={r.slice} className={`bar-row ${sel === r.slice ? "sel" : ""}`}
-          onClick={() => setSel(sel === r.slice ? null : r.slice)}>
-          <span className="bar-lab">{r.slice}</span>
-          <span className="bar-track">
-            <span className="bar-fill" style={{ width: `${r.recall * 100}%`, background: r.recall < 0.6 ? "var(--red)" : "var(--ink)" }} />
-          </span>
-          <span className="bar-val">{r.recall.toFixed(2)}</span>
-        </div>
-      ))}
-      <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-        Red bars: recall below 0.60. Click any slice to see missed examples.
-      </p>
-
-      {selected && (
-        <div className="panel">
-          <div className="byline" style={{ marginBottom: 8 }}>
-            Missed in <code>{selected.slice}</code> · recall {selected.recall.toFixed(2)}
+      <div className="row-flex">
+        <select
+          className="sel"
+          style={{width:"auto"}}
+          value={dataset}
+          onChange={e => { setDataset(e.target.value); setExpanded(null); }}
+        >
+          <option value="hatecheck">HateCheck (18 slices)</option>
+          <option value="civil_comments">Civil Comments</option>
+        </select>
+        {ds && (
+          <div style={{fontSize:12, color:"var(--muted2)"}}>
+            Overall recall:&ensp;
+            <span style={{fontFamily:"var(--mono)", fontWeight:700, color: ds.overall_recall >= 0.7 ? "#3fb950" : "#f59e0b"}}>
+              {(ds.overall_recall * 100).toFixed(1)}%
+            </span>
           </div>
-          <p className="muted" style={{ fontSize: 11, marginBottom: 8 }}>
-            Content note: these are public-benchmark test cases the model <b>failed to flag</b>.
-            They may target protected groups — shown only to make the detection gap concrete.
-          </p>
-          {selected.missed_examples && selected.missed_examples.length > 0 ? (
-            <ul style={{ margin: 0, paddingLeft: 18 }}>
-              {selected.missed_examples.map((m, i) => (
-                <li key={i} style={{ fontStyle: "italic", color: "#444", marginBottom: 6 }}>"{m}"</li>
+        )}
+      </div>
+
+      {err && <div style={{color:"#f85149", fontSize:12}}>{err}</div>}
+      {!data && !err && <div className="spinner" />}
+
+      {ds && (
+        <div className="card" style={{padding:0, overflow:"hidden"}}>
+          <div style={{padding:"10px 14px", borderBottom:"1px solid var(--border)", display:"flex", gap:10, alignItems:"center"}}>
+            <div style={{fontSize:11, color:"var(--muted2)"}}>
+              Sorted by recall (worst first). Click a row to see missed examples.
+            </div>
+            <div style={{marginLeft:"auto", display:"flex", gap:10}}>
+              {[["#3fb950","≥75%"],["#d29922","60–74%"],["#f85149","<60%"]].map(([c,l]) => (
+                <span key={l} style={{display:"flex", alignItems:"center", gap:5, fontSize:10, color:"var(--muted2)"}}>
+                  <span style={{width:8,height:8,borderRadius:2,background:c,display:"inline-block"}} />
+                  {l}
+                </span>
               ))}
-            </ul>
-          ) : (
-            <p className="muted" style={{ margin: 0 }}>No missed examples recorded for this slice.</p>
-          )}
+            </div>
+          </div>
+          {sorted.map((row, i) => (
+            <SliceRow
+              key={i}
+              row={row}
+              expanded={expanded === i}
+              onToggle={() => setExpanded(expanded === i ? null : i)}
+            />
+          ))}
         </div>
       )}
     </div>

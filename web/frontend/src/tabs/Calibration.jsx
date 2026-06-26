@@ -1,96 +1,145 @@
 import { useEffect, useState } from "react";
 import { get } from "../api.js";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, Tooltip, ResponsiveContainer,
+  LineChart, Line, XAxis, YAxis, CartesianGrid,
+  ReferenceLine, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 
-function nearest(sweep, t) {
-  return sweep.reduce((a, b) => (Math.abs(b.t - t) < Math.abs(a.t - t) ? b : a));
+const DATASETS = ["civil_comments", "hatecheck"];
+
+function eceColor(v) {
+  if (v <= 0.05) return "good";
+  if (v <= 0.12) return "warn";
+  return "bad";
 }
 
-function Metric({ label, val, accent }) {
+function MetricGrid({ label, sweep, threshold }) {
+  if (!sweep?.length) return null;
+  const row = sweep.reduce((best, r) => Math.abs(r.t - threshold) < Math.abs(best.t - threshold) ? r : best, sweep[0]);
   return (
-    <div style={{ textAlign: "center", flex: 1 }}>
-      <div className="serif" style={{ fontSize: 26, fontWeight: 900, color: accent || "var(--ink)" }}>
-        {(val * 100).toFixed(0)}%
-      </div>
-      <div className="vlbl">{label}</div>
+    <div className="grid-3">
+      {[
+        ["Precision", row.precision?.toFixed(3), null],
+        ["Recall",    row.recall?.toFixed(3),    null],
+        ["FPR",       row.fpr?.toFixed(3),        "warn"],
+      ].map(([lbl, val]) => (
+        <div key={lbl} className="card">
+          <div className="cal-label">{lbl}</div>
+          <div className="cal-val" style={{color:"var(--text2)", fontSize:18}}>{val ?? "—"}</div>
+        </div>
+      ))}
     </div>
   );
 }
 
-function Reliability({ name, ece, rel, threshold }) {
-  return (
-    <div style={{ flex: 1, minWidth: 280 }}>
-      <div className="byline" style={{ marginBottom: 6 }}>{name} · ECE {ece.toFixed(3)}</div>
-      <ResponsiveContainer width="100%" height={220}>
-        <LineChart data={rel} margin={{ top: 8, right: 12, bottom: 4, left: -16 }}>
-          <CartesianGrid stroke="#eee" />
-          <XAxis type="number" dataKey="conf" domain={[0, 1]} tick={{ fontSize: 11 }} tickFormatter={(v) => v.toFixed(1)} />
-          <YAxis domain={[0, 1]} tick={{ fontSize: 11 }} tickFormatter={(v) => v.toFixed(1)} />
-          <Tooltip formatter={(v) => v.toFixed(2)} labelFormatter={(v) => `conf ${(+v).toFixed(2)}`} />
-          <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 1, y: 1 }]} stroke="#bbb" strokeDasharray="4 4" />
-          <ReferenceLine x={threshold} stroke="#b91c1c" strokeDasharray="3 3" />
-          <Line type="monotone" dataKey="acc" stroke="#111" strokeWidth={2} dot={{ r: 3 }} isAnimationActive={false} />
-        </LineChart>
-      </ResponsiveContainer>
-      <p className="muted" style={{ fontSize: 11, textAlign: "center" }}>
-        predicted confidence (x) vs. actual toxic rate (y); dashed diagonal = perfect.
-      </p>
-    </div>
-  );
-}
+const tooltipStyle = {
+  background:"#222b42", border:"1px solid #3a4f7a",
+  borderRadius:6, color:"#eef2ff", fontSize:11,
+};
 
 export default function Calibration() {
   const [data, setData] = useState(null);
-  const [t, setT] = useState(0.5);
+  const [err,  setErr]  = useState(null);
+  const [threshold, setThreshold] = useState(0.5);
+  const [ds, setDs] = useState("civil_comments");
 
-  useEffect(() => { get("/api/calibration").then(setData).catch(() => setData({})); }, []);
-  if (!data) return <div className="spinner" />;
-  const names = Object.keys(data);
-  if (names.length === 0) return <div className="note">No calibration data.</div>;
+  useEffect(() => {
+    get("/api/calibration")
+      .then(d => setData(d))
+      .catch(e => setErr(e.message));
+  }, []);
+
+  const cur = data?.[ds];
 
   return (
-    <div>
-      <div className="byline">The Ledger · Confidence you can (not) trust</div>
-      <div className="lead sm">Calibration does not travel</div>
-      <div className="standfirst">
-        A score of 0.70 should mean a 70% chance of toxicity. Drag the operating
-        threshold and watch precision, recall, and false-positive rate move on both
-        datasets at once: a cutoff tuned on one misfires on the other.
-      </div>
+    <div className="tab-body">
+      <div className="sec-label">Calibration Dashboard</div>
 
-      <label className="lbl">Operating threshold: <span className="mono">{t.toFixed(2)}</span></label>
-      <input type="range" min="0.05" max="0.95" step="0.01" value={t}
-        onChange={(e) => setT(Number(e.target.value))} style={{ width: "100%", accentColor: "#111" }} />
+      {err && <div style={{color:"#f85149", fontSize:12}}>{err}</div>}
+      {!data && !err && <div className="spinner" />}
 
-      <div className="row" style={{ gap: 22, marginTop: 16 }}>
-        {names.map((n) => {
-          const p = nearest(data[n].sweep, t);
-          return (
-            <div key={n} className="panel" style={{ flex: 1, minWidth: 260 }}>
-              <div className="byline" style={{ marginBottom: 10 }}>{n} · ECE {data[n].ece.toFixed(3)}</div>
-              <div className="row" style={{ gap: 6 }}>
-                <Metric label="Precision" val={p.precision} />
-                <Metric label="Recall" val={p.recall} />
-                <Metric label="FPR" val={p.fpr} accent="var(--red)" />
-              </div>
+      {data && (
+        <>
+          <div className="row-flex">
+            <div className="chips-row">
+              {DATASETS.map(d => (
+                <div
+                  key={d}
+                  className={"chip" + (ds === d ? " active" : "")}
+                  onClick={() => setDs(d)}
+                >
+                  {d === "civil_comments" ? "Civil Comments" : "HateCheck"}
+                </div>
+              ))}
             </div>
-          );
-        })}
-      </div>
+          </div>
 
-      <hr className="thin" />
-      <h3 className="sec">Reliability curves</h3>
-      <div className="row" style={{ gap: 22 }}>
-        {names.map((n) => (
-          <Reliability key={n} name={n} ece={data[n].ece} rel={data[n].reliability} threshold={t} />
-        ))}
-      </div>
-      <div className="note">
-        The same model is well-calibrated on one distribution and badly off on the other.
-        That is why a threshold cannot be copied between datasets without re-checking.
-      </div>
+          {/* ECE summary row */}
+          <div className="grid-2">
+            {DATASETS.map(d => {
+              const ece = data?.[d]?.ece;
+              return (
+                <div key={d} className="card">
+                  <div className="cal-label">ECE · {d === "civil_comments" ? "Civil Comments" : "HateCheck"}</div>
+                  <div className={"cal-val " + eceColor(ece ?? 1)}>{ece?.toFixed(3) ?? "—"}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {cur && (
+            <>
+              <div className="card">
+                <div className="card-title">Reliability Curve — {ds === "civil_comments" ? "Civil Comments" : "HateCheck"}</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <LineChart data={cur.reliability ?? []}>
+                    <CartesianGrid stroke="#2a3550" strokeDasharray="3 3" />
+                    <XAxis dataKey="conf" tick={{fill:"#8899bb", fontSize:10}} label={{value:"Mean predicted prob", position:"insideBottom", offset:-2, fill:"#7d8fbb", fontSize:10}} />
+                    <YAxis tick={{fill:"#8899bb", fontSize:10}} label={{value:"Fraction positive", angle:-90, position:"insideLeft", fill:"#7d8fbb", fontSize:10}} />
+                    <Tooltip contentStyle={tooltipStyle} />
+                    <ReferenceLine stroke="#4a6090" strokeDasharray="4 4" segment={[{x:0,y:0},{x:1,y:1}]} />
+                    <Line type="monotone" dataKey="acc" stroke="#f59e0b" strokeWidth={2} dot={{r:3, fill:"#f59e0b"}} name="Calibration" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="card">
+                <div className="card-title">Precision / Recall / FPR vs Threshold</div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <LineChart data={cur.sweep ?? []}>
+                    <CartesianGrid stroke="#2a3550" strokeDasharray="3 3" />
+                    <XAxis dataKey="t" tick={{fill:"#8899bb", fontSize:10}} label={{value:"Threshold", position:"insideBottom", offset:-2, fill:"#7d8fbb", fontSize:10}} />
+                    <YAxis tick={{fill:"#8899bb", fontSize:10}} domain={[0,1]} />
+                    <Tooltip contentStyle={tooltipStyle} />
+                    <Legend wrapperStyle={{fontSize:11, color:"#8899bb"}} />
+                    <ReferenceLine x={threshold} stroke="#f59e0b" strokeWidth={1.5} strokeDasharray="4 3" label={{value:`t=${threshold}`, fill:"#f59e0b", fontSize:10}} />
+                    <Line type="monotone" dataKey="precision" stroke="#3fb950" strokeWidth={2} dot={false} name="Precision" />
+                    <Line type="monotone" dataKey="recall"    stroke="#58a6ff" strokeWidth={2} dot={false} name="Recall" />
+                    <Line type="monotone" dataKey="fpr"       stroke="#f85149" strokeWidth={2} dot={false} name="FPR" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div>
+                <div className="card-title" style={{marginBottom:6}}>Threshold slider</div>
+                <div className="row-flex">
+                  <input
+                    type="range" min={0} max={1} step={0.01}
+                    value={threshold}
+                    onChange={e => setThreshold(+e.target.value)}
+                    style={{flex:1}}
+                  />
+                  <span style={{fontFamily:"var(--mono)", fontSize:14, fontWeight:700, color:"var(--amber)", minWidth:38, textAlign:"right"}}>
+                    {threshold.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+
+              <MetricGrid label={ds} sweep={cur.sweep} threshold={threshold} />
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
