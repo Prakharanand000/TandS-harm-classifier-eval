@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component, useState } from "react";
 import LiveScanner   from "./tabs/LiveScanner.jsx";
 import AttackLab     from "./tabs/AttackLab.jsx";
 import SliceExplorer from "./tabs/SliceExplorer.jsx";
@@ -10,6 +10,23 @@ const TABS = [
   ["slices",  "Slice Explorer", SliceExplorer],
   ["calib",   "Calibration",    Calibration],
 ];
+
+class TabErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { err: null }; }
+  static getDerivedStateFromError(err) { return { err }; }
+  componentDidUpdate(prev) { if (prev.tabKey !== this.props.tabKey) this.setState({ err: null }); }
+  render() {
+    if (this.state.err) {
+      return (
+        <div style={{padding:32, color:"#f85149", fontFamily:"var(--mono)", fontSize:13}}>
+          <div style={{marginBottom:8, fontWeight:700}}>Tab error</div>
+          <div style={{color:"#8899bb"}}>{this.state.err.message}</div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export default function App() {
   const [active, setActive] = useState("scanner");
@@ -44,7 +61,9 @@ export default function App() {
         ))}
       </nav>
 
-      <Tab />
+      <TabErrorBoundary tabKey={active}>
+        <Tab />
+      </TabErrorBoundary>
 
       <footer className="foot">
         <span>Harm Classifier Robustness Review · Detoxify (unbiased) · threshold 0.5</span>
