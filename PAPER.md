@@ -251,6 +251,29 @@ python scripts/run_eval.py --dataset hatecheck
 Numbers use small samples for fast iteration; scale `--sample` for tighter
 confidence. Inference is batched to bound CPU memory.
 
+### 5.1 Companion interactive scanner
+
+An interactive robustness scanner built with FastAPI and React is deployed at
+[tands-harm-classifier-eval.onrender.com](https://tands-harm-classifier-eval.onrender.com).
+It exposes the same four analytical layers as live tools:
+
+- **Live Scanner** — toxicity gauge, FLAGGED / BORDERLINE / CLEAN verdict, a
+  Bloom-filter tier-0 denylist precheck (9,585 bits, 7 hash functions, O(k) with
+  no model call), and per-category slice prediction.
+- **Attack Lab** — the full nine-attack evasion matrix with normalization defenses
+  run against a precomputed seed bank, plus a custom-text endpoint that runs the
+  matrix on demand.
+- **Slice Explorer** — interactive recall bars for all 18 HateCheck functionalities;
+  click any bar to expand the real missed examples from the evaluation run.
+- **Calibration Dashboard** — dual reliability curves for Civil Comments (ECE 0.022)
+  and HateCheck (ECE 0.226) with a draggable threshold slider that updates
+  precision, recall, and FPR live for both datasets simultaneously.
+
+Model inference numbers are precomputed and served from JSON (no live Detoxify in
+the deployed container), keeping the Docker image within Render's free-tier 512 MB
+RAM limit. The scanner is the intended entry point for reviewers who want to
+interact with the findings before reading the harness code.
+
 ---
 
 ## 6. Ethics and responsible disclosure
@@ -284,4 +307,5 @@ from a synthetic-vocabulary validation set.
 ---
 
 *Built as a Trust & Safety / abuse-detection portfolio project. Code, harness,
-and generated memos: [github.com/Prakharanand000/TandS-harm-classifier-eval](https://github.com/Prakharanand000/TandS-harm-classifier-eval).*
+and generated memos: [github.com/Prakharanand000/TandS-harm-classifier-eval](https://github.com/Prakharanand000/TandS-harm-classifier-eval).
+Interactive scanner: [tands-harm-classifier-eval.onrender.com](https://tands-harm-classifier-eval.onrender.com).*
