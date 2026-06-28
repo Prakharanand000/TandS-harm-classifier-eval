@@ -15,7 +15,7 @@ Adversarial Failure Modes of a Production Toxicity Classifier*, the working
 paper with the full findings, figures, and method.
 
 🚀 **Live demo (no install):** the robustness scanner on
-[Render](https://robustness-review.onrender.com) —
+[Render](https://tands-harm-classifier-eval.onrender.com) —
 type a comment and watch evasions attack a classifier in real time.
 
 > **Data ethics.** This harness uses **public proxy data only** (ordinary
@@ -29,7 +29,7 @@ type a comment and watch evasions attack a classifier in real time.
 The fastest way to see what this does is the **robustness scanner** — a
 FastAPI + React app with four interactive tabs.
 
-**▶ Try it live (no install):** <https://robustness-review.onrender.com>
+**▶ Try it live (no install):** <https://tands-harm-classifier-eval.onrender.com>
 
 - **Live Scanner** — type any comment and get a toxicity gauge, a FLAGGED /
   BORDERLINE / CLEAN verdict, slice-category prediction, and a Bloom-filter
