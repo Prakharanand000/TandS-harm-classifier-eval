@@ -1,7 +1,7 @@
 # Below the Aggregate: Slice and Adversarial Failure Modes of a Production Toxicity Classifier
 
 **Prakhar Anand**
-Working paper · 2026 · [github.com/Prakharanand000/TandS-harm-classifier-eval](https://github.com/Prakharanand000/TandS-harm-classifier-eval) · [Live demo](https://prakharanand000.github.io/TandS-harm-classifier-eval/)
+Working paper · 2026 · [github.com/Prakharanand000/TandS-harm-classifier-eval](https://github.com/Prakharanand000/TandS-harm-classifier-eval) · [Live demo](https://tands-harm-classifier-eval.onrender.com)
 
 ---
 
